@@ -1,3 +1,0 @@
-[0m[[0m[31merror[0m] [0m[0mC:\Users\ryaza\Desktop\play-samples-play-scala-hello-world-tutorial\conf\routes:10:1: no arguments allowed for nullary method hello: (): play.api.mvc.Action[play.api.mvc.AnyContent][0m
-[0m[[0m[31merror[0m] [0m[0mGET     /hello                              controllers.HomeController.hello(name:String)[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m
