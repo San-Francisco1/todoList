@@ -1,0 +1,16 @@
+*
+!*/
+!.
+!routes
+
+.idea
+target/
+**/target
+.DS_Store
+.sbtopts
+.bloop
+.metals
+.vscode
+*.sc
+.bsp/
+project/metals.sbt
