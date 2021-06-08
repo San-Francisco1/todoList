@@ -3,16 +3,16 @@ lazy val root = (project in file("."))
   .settings(
     name := "TodoList",
     organization := "com.example",
-    version := "1.0-SNAPSHOT",
+    version := "0.0.1",
     scalaVersion := "2.13.5",
     libraryDependencies ++= Seq(
       guice,
-      "com.github.nscala-time" %% "nscala-time" % "2.28.0",
-      "com.typesafe.play" %% "play-slick" % "5.0.0",
-      "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0",
-      "com.typesafe.slick" %% "slick" % "3.3.3",
-      "org.slf4j" % "slf4j-nop" % "1.6.4",
-      "org.postgresql" % "postgresql" % "9.4-1206-jdbc42" //org.postgresql.ds.PGSimpleDataSource dependency
+      Dependencies.nscala,
+      Dependencies.playSlick,
+      Dependencies.playEvolutions,
+      Dependencies.slick,
+      Dependencies.slickJoda,
+      Dependencies.postgres
     ),
     scalacOptions ++= Seq("-feature", "-deprecation", "-Xfatal-warnings")
   )
