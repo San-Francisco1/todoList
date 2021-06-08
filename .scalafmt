@@ -1,0 +1,57 @@
+version = "2.0.1"
+
+maxColumn = 120
+docstrings = JavaDoc
+assumeStandardLibraryStripMargin = true
+
+continuationIndent {
+  callSite = 2
+  defnSite = 2
+  extendSite = 2
+}
+
+newlines {
+  alwaysBeforeTopLevelStatements = true
+  alwaysBeforeElseAfterCurlyIf = false
+  sometimesBeforeColonInMethodReturnType = true
+}
+
+literals {
+  long = Upper
+  float = Upper
+  double = Upper
+}
+
+align.tokens = [
+  {code = "%", owner = "Term.ApplyInfix"},
+  {code = "%%", owner = "Term.ApplyInfix"}
+]
+
+rewrite {
+  rules = [
+    RedundantBraces,
+    RedundantParens,
+    SortModifiers,
+    PreferCurlyFors
+  ]
+  redundantBraces {
+    methodBodies = false
+    stringInterpolation = true
+    generalExpressions = false
+    includeUnitMethods = false
+    maxLines = 120
+  }
+}
+
+verticalMultiline {
+  atDefnSite = true
+  newlineAfterOpenParen = true
+  newlineBeforeImplicitKW = true
+  excludeDanglingParens = [
+    "`trait`"
+  ]
+}
+
+project.excludeFilters = [
+  "project/*", "build.sbt"
+]
