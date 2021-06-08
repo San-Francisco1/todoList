@@ -1,2 +1,2 @@
 
-GET     /hello                              controllers.HomeController.hello(name: String)
+GET     /api/priorities                              controllers.HomeController.getCountPriority

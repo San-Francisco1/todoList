@@ -3,6 +3,9 @@
 !.
 !routes
 
+docker-compose.yml
+.env
+
 .idea
 target/
 **/target

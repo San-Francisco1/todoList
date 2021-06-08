@@ -14,5 +14,12 @@ lazy val root = (project in file("."))
       Dependencies.slickJoda,
       Dependencies.postgres
     ),
-    scalacOptions ++= Seq("-feature", "-deprecation", "-Xfatal-warnings")
+    scalacOptions ~= (_.filterNot(Set(
+      "-Xlint:adapted-args",
+      "-Wvalue-discard",
+      "-Xlint:infer-any"
+    )) ++ Seq(
+      "-Wconf:src=target/.*:silent",
+      "-Ywarn-macros:after"
+    )),
   )
