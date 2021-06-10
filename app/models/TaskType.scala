@@ -3,7 +3,7 @@ package models
 import org.joda.time.DateTime
 
 case class TaskType(
-  id: Int,
+  id: Long,
   title: String,
   userId: Long,
   parentId: Option[Long],
