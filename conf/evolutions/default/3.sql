@@ -5,7 +5,7 @@ create table if not exists tasktype(
     title varchar not null,
     user_id bigint not null,
     CONSTRAINT FKTaskType_user FOREIGN KEY
-    (user_id) REFERENCES user(id),
+    (user_id) REFERENCES users(id),
     parent_id bigint not null,
     CONSTRAINT FKTaskType_parent FOREIGN KEY
     (id) REFERENCES tasktype(id),
