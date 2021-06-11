@@ -3,5 +3,5 @@
 ###  Запуск приложения
 
 ```scala
-sbt run -Dconfig.file=conf/application-local.conf
+sbt -Dconfig.file=conf/application-local.conf run
 ```
