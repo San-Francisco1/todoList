@@ -1,2 +1,8 @@
+#API
+GET     /api/priorities    controllers.HomeController.getCountPriority
+## Auth
+POST    /api/singin        controllers.AuthController.singIn
 
-GET     /api/priorities                              controllers.HomeController.getCountPriority
+#Views
+GET     /                  controllers.TodoListController.indexView
+GET     /sing              controllers.AuthController.getSingInView
