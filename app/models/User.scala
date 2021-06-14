@@ -7,6 +7,7 @@ case class User(
   firstName: String,
   lastName: String,
   email: String,
+  password: String,
   phone: String,
   telegram: Option[String],
   created: DateTime,

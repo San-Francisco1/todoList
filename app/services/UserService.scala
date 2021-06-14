@@ -10,4 +10,6 @@ import models.User
 @Singleton
 class UserService @Inject()(userDAO: UserDAO) {
   def findAll: Future[Seq[User]] = userDAO.findAll
+
+  def findByEmail(email: String): Future[Option[User]] = userDAO.findByEmail(email)
 }

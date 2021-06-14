@@ -10,10 +10,9 @@ import slick.jdbc.JdbcProfile
 import slick.jdbc.PostgresProfile.api._
 
 @Singleton
-class UserDAO @Inject()(
-  protected val dbConfigProvider: DatabaseConfigProvider
-)(implicit val ec: ExecutionContext)
-  extends HasDatabaseConfigProvider[JdbcProfile] {
+class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
+  implicit val ec: ExecutionContext
+) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   val Table = TableQuery[UserTable]
 
@@ -22,5 +21,11 @@ class UserDAO @Inject()(
   def findById(id: Long): Future[Option[User]] = {
     val query = Table.filter(_.id === id)
     db.run(query.result.headOption)
+  }
+
+  def findByEmail(email: String): Future[Option[User]] = {
+    val query = Table.filter(_.email === email).result.headOption
+
+    db.run(query)
   }
 }
