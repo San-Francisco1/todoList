@@ -1,9 +1,9 @@
 package controllers
 
-import javax.inject.Inject
+import Views.auth.html._
 
+import javax.inject.Inject
 import play.api.mvc.{Cookie, InjectedController}
-import views.html.auth._
 
 class AuthController @Inject()(singInView: singIn) extends InjectedController {
   def getSingInView = Action {

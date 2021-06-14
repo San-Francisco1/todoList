@@ -1,10 +1,10 @@
 # --- !Ups
 
-INSERT INTO priority VALUES
-    ("Hot", "Red"),
-    ("Major", "Orange"),
-    ("Minor", "Blue"),
-    ("Trivial", "White")
+INSERT INTO priority(title, color) VALUES
+    ('hot', '#A31012'),
+    ('major', '#f55306'),
+    ('minor', '#050394'),
+    ('trivial', '#fff')
 
 # --- !Downs
 delete from priority;
