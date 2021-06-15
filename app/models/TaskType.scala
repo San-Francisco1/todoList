@@ -8,6 +8,6 @@ case class TaskType(
   userId: Long,
   parentId: Option[Long],
   created: DateTime = DateTime.now(),
-  updated: DateTime,
+  updated: DateTime = DateTime.now(),
   deleted: Option[DateTime]
 )

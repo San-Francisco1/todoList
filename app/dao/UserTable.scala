@@ -6,7 +6,7 @@ import slick.lifted.Tag
 import org.joda.time.DateTime
 import com.github.tototoshi.slick.PostgresJodaSupport._
 
-class UserTable(tag: Tag) extends Table[User](tag, "user") {
+class UserTable(tag: Tag) extends Table[User](tag, "users") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
   def firstName = column[String]("first_name")

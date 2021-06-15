@@ -9,7 +9,7 @@ case class Task(
   priorityId: Long,
   taskTypeId: Option[Long],
   dueDate: DateTime = DateTime.now(),
-  created: DateTime,
-  updated: DateTime,
+  created: DateTime = DateTime.now(),
+  updated: DateTime = DateTime.now(),
   deleted: Option[DateTime]
 )

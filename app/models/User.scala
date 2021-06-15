@@ -11,6 +11,6 @@ case class User(
   phone: String,
   telegram: Option[String],
   created: DateTime = DateTime.now(),
-  updated: DateTime,
+  updated: DateTime = DateTime.now(),
   deleted: Option[DateTime]
 )

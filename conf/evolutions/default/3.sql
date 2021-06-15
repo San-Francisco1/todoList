@@ -10,7 +10,7 @@ create table if not exists task_type(
     CONSTRAINT fk_task_type_parent FOREIGN KEY
     (id) REFERENCES task_type(id),
     created timestamp not null,
-    updated timestamp null,
+    updated timestamp not null,
     deleted timestamp null
 );
 
