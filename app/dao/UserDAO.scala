@@ -23,9 +23,7 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
     db.run(query.result.headOption)
   }
 
-  def findByEmail(email: String): Future[Option[User]] = {
-    val query = Table.filter(_.email === email).result.headOption
-
-    db.run(query)
+  def findByEmailAndPass(email: String, password: String): Future[Option[User]] = {
+    db.run(Table.filter(user => user.email === email && user.password=== password).result.headOption)
   }
 }

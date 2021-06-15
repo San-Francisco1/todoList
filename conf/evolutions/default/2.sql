@@ -5,11 +5,13 @@ create table if not exists users(
     firstname varchar not null,
     lastname varchar not null,
     email varchar not null,
+    password varchar not null,
     phone varchar not null,
     telegram varchar null,
     created date not null,
     updated date null,
-    deleted date null
+    deleted date null,
+    unique(email, password, telegram)
 );
 
 # --- !Downs

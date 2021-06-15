@@ -15,6 +15,8 @@ class UserTable(tag: Tag) extends Table[User](tag, "user") {
 
   def email = column[String]("email")
 
+  def password = column[String]("password")
+
   def phone = column[String]("phone")
 
   def telegram = column[Option[String]]("telegram")
@@ -26,5 +28,5 @@ class UserTable(tag: Tag) extends Table[User](tag, "user") {
   def deleted = column[Option[DateTime]]("deleted")
 
   override def * =
-    (id, firstName, lastName, email, phone, telegram, created, updated, deleted) <> ((User.apply _). tupled, User.unapply)
+    (id, firstName, lastName, email, password, phone, telegram, created, updated, deleted) <> ((User.apply _). tupled, User.unapply)
 }

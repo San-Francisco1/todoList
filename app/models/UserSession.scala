@@ -7,5 +7,5 @@ case class UserSession(
   sessionId: String,
   userId: Long,
   isActive: Boolean,
-  created: DateTime
+  created: DateTime = DateTime.now()
 )
