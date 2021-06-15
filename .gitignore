@@ -3,6 +3,7 @@
 !routes
 
 docker-compose.yml
+application-dev.conf
 .env
 
 .idea/

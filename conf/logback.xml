@@ -1,23 +1,19 @@
-<!-- https://www.playframework.com/documentation/latest/SettingsLogger -->
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
-  <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel" />
-
+  <variable name="LOG_LEVEL" value="${LOG_LEVEL:-INFO}" />
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%coloredLevel %logger{15} - %message%n%xException{10}</pattern>
+      <pattern>%date %highlight(%-5level) %cyan(%logger{15}) - %message%n%xException{5}</pattern>
     </encoder>
   </appender>
 
-  <appender name="ASYNCSTDOUT" class="ch.qos.logback.classic.AsyncAppender">
+  <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
     <appender-ref ref="STDOUT" />
   </appender>
 
-  <logger name="play" level="INFO" />
-  <logger name="application" level="DEBUG" />
+  <logger name="slick.jdbc.JdbcBackend.statement" level="DEBUG" />
 
   <root level="INFO">
-    <appender-ref ref="ASYNCSTDOUT" />
+    <appender-ref ref="ASYNC_STDOUT" />
   </root>
-
 </configuration>
