@@ -1,11 +1,10 @@
 package services
 
-import javax.inject.{Inject, Singleton}
-
-import scala.concurrent.Future
-
 import dao.UserSessionDAO
 import models.UserSession
+
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.Future
 
 @Singleton
 class UserSessionService @Inject()(userSessionDAO: UserSessionDAO) {
