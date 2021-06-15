@@ -7,7 +7,7 @@ case class TaskType(
   title: String,
   userId: Long,
   parentId: Option[Long],
-  created: DateTime,
+  created: DateTime = DateTime.now(),
   updated: DateTime,
   deleted: Option[DateTime]
 )

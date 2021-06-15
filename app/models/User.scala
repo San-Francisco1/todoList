@@ -10,7 +10,7 @@ case class User(
   password: String,
   phone: String,
   telegram: Option[String],
-  created: DateTime,
+  created: DateTime = DateTime.now(),
   updated: DateTime,
   deleted: Option[DateTime]
 )

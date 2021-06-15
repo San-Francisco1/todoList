@@ -5,12 +5,12 @@ create table if not exists task(
     title varchar not null,
     description text null,
     tasktype_id bigint not null,
-    CONSTRAINT FKTask_tasktype FOREIGN KEY
-    (tasktype_id) REFERENCES tasktype(id),
-    due_date date not null,
-    created date not null,
-    updated date null,
-    deleted date null
+    CONSTRAINT fk_task_tasktype FOREIGN KEY
+    (tasktype_id) REFERENCES task_type(id),
+    due_date timestamp not null,
+    created timestamp not null,
+    updated timestamp null,
+    deleted timestamp null
 );
 
 # --- !Downs

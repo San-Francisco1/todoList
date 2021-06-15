@@ -8,10 +8,10 @@ create table if not exists users(
     password varchar not null,
     phone varchar not null,
     telegram varchar null,
-    created date not null,
-    updated date null,
-    deleted date null,
-    unique(email, password, telegram)
+    created timestamp not null,
+    updated timestamp null,
+    deleted timestamp null,
+    unique(email, telegram)
 );
 
 # --- !Downs
