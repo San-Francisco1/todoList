@@ -51,7 +51,7 @@
     </head>
     <body class="text-center">
         <main class="form-signin">
-          <form id="app" @@submit="checkForm" action="/api/singin" method="post" >
+          <form id="app" @@submit="checkForm" action="/api/signin" method="post" >
             <h1 class="h3 mb-3 fw-normal">Вход</h1>
             <div class="alert alert-danger " role="alert" v-if="errors.length">
                 <div v-for="error in errors">{{ error }}</div>
@@ -98,7 +98,7 @@
                   if (this.email && this.password) {
                       axios({
                           method: 'post',
-                          url: '/api/singin',
+                          url: '/api/signin',
                           data: {
                               email: this.email,
                               password: this.password

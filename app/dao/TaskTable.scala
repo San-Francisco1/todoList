@@ -15,7 +15,7 @@ class TaskTable(tag: Tag) extends Table[Task](tag, "task") {
 
   def priorityId = column[Long]("priority_id")
 
-  def taskTypeId = column[Option[Long]]("task_type_Id")
+  def taskTypeId = column[Option[Long]]("task_type_id")
 
   def dueDate = column[DateTime]("due_date")
 

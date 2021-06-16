@@ -1,17 +1,19 @@
 package controllers
 
-import javax.inject.Inject
-
 import actions.AuthRefiner
 import play.api.mvc.InjectedController
 import views.html.index
 
+import javax.inject.Inject
+
 class TodoListController @Inject()(
-  auth: AuthRefiner
+  auth: AuthRefiner,
 )(
   indexView: index
 ) extends InjectedController {
   def getIndexView = auth { request =>
     Ok(indexView(request.user))
   }
+
+
 }

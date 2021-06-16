@@ -8,7 +8,7 @@ case class Task(
   description: Option[String],
   priorityId: Long,
   taskTypeId: Option[Long],
-  dueDate: DateTime = DateTime.now(),
+  dueDate: DateTime,
   created: DateTime = DateTime.now(),
   updated: DateTime = DateTime.now(),
   deleted: Option[DateTime]
