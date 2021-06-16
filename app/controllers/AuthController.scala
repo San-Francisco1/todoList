@@ -6,7 +6,7 @@ import models.{Auth, UserSession}
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, Cookie, InjectedController}
 import services.{UserService, UserSessionService}
-import views.html.auth.singIn
+import views.html.auth.signIn
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
@@ -17,12 +17,12 @@ class AuthController @Inject()(
   userService: UserService,
   userSessionService: UserSessionService
 )(
-  singInView: singIn
+  signInView: signIn
 )(
   implicit ec: ExecutionContext
 ) extends InjectedController {
   def getSignInView = Action {
-    Ok(singInView())
+    Ok(signInView())
   }
 
   def signIn: Action[JsValue] = Action(parse.json).async { request =>
