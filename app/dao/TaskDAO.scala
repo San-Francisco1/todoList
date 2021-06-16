@@ -21,6 +21,8 @@ class TaskDAO @Inject()(
 
   def insert(task: Task): Future[Int] = db.run(Table += task)
 
+  def remove(id: Long): Future[Int] = db.run(Table.filter(_.id === id).delete)
+
   def findByDueDate(dueDate: DateTime): Future[Seq[Task]] = db.run(Table.filter(_.dueDate === dueDate).result)
 
   def findExpired: Future[Seq[Task]] = db.run(Table.filter(_.dueDate <= DateTime.now()).result)

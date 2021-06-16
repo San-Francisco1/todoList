@@ -21,4 +21,6 @@ class UserSessionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   def findBySessionId(sessionId: String): Future[Option[UserSession]] = {
     db.run(Table.filter(userSession => userSession.sessionId === sessionId && userSession.isActive).result.headOption)
   }
+
+  def isActiveFalse(sessionId: String): Future[Int] = db.run(Table.filter(_.sessionId === sessionId).map(_.isActive).update((false)))
 }

@@ -12,6 +12,8 @@ class TaskService @Inject()(taskDAO: TaskDAO) {
 
   def insert(task: Task): Future[Int] = taskDAO.insert(task)
 
+  def remove(id: Long): Future[Int] = taskDAO.remove(id)
+
   def findByDueDate(dueDate: DateTime): Future[Seq[Task]] = taskDAO.findByDueDate(dueDate)
 
   def findExpired: Future[Seq[Task]] = taskDAO.findExpired
