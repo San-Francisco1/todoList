@@ -11,6 +11,7 @@ lazy val root = (project in file("."))
       Dependencies.nscala,
       Dependencies.playSlick,
       Dependencies.playEvolutions,
+      Dependencies.playJsonJoda,
       Dependencies.slick,
       Dependencies.slickJoda,
       Dependencies.postgres

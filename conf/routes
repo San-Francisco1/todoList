@@ -1,7 +1,12 @@
 #API
 ## Auth
 POST    /api/signin        controllers.AuthController.signIn
+POST    /api/logout        controllers.AuthController.logout
 GET     /api/user/add      controllers.TodoListController.addUser
+
+##Task
+POST    /api/task          controllers.TodoListController.addTask
+DELETE  /api/task/:id      controllers.TodoListController.deleteTask(id: Long)
 
 #Views
 GET     /                  controllers.TodoListController.getIndexView

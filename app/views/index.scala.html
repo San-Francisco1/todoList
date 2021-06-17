@@ -117,7 +117,7 @@
                 border-color: transparent;
                 box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
             }
-            #dropdownUser1:hover {
+            #userMenu:hover {
                 background-color: #0c63e3 !important;
             }
         </style>
@@ -126,10 +126,10 @@
     <body>
         <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">TODOLIST</a>
-            <div class="dropdown col-md-2 text-center me-2 p-2" id="dropdownUser1">
+            <div class="dropdown col-md-2 text-center me-2 p-2" id="userMenu">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="profile-img">@{ List(user.firstName.headOption, user.lastName.headOption).flatten.mkString("").toUpperCase }</span>
-                    <span class="text-white" style="font-size: 16px">@{ user.lastName + ' ' + user.firstName.headOption.map(_ + ".").getOrElse("") }</span>
+                    <span class="text-white" style="font-size: 16px">@user.firstName</span>
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="#">Профиль</a></li>

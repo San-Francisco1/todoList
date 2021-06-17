@@ -25,13 +25,25 @@ class TaskDAO @Inject()(
 
   def findByDueDate(dueDate: DateTime): Future[Seq[Task]] = db.run(Table.filter(_.dueDate === dueDate).result)
 
-  def findExpired: Future[Seq[Task]] = db.run(Table.filter(_.dueDate <= DateTime.now()).result)
+  def findExpired: Future[Seq[Task]] = db.run(Table.filter(_.dueDate < DateTime.now()).result)
 
-  def findUpcoming: Future[Seq[Task]] = db.run(Table.filter(_.dueDate >= DateTime.now().withTimeAtStartOfDay().plusDays(2)).result)
+  def findUpcoming: Future[Seq[Task]] = db.run(
+    Table.filter(_.dueDate >= DateTime.now().withTimeAtStartOfDay().plusDays(2)).result
+  )
 
-  def findToday: Future[Seq[Task]] = db.run(Table.filter(task =>
-    task.dueDate >= DateTime.now().withTimeAtStartOfDay() && task.dueDate <= DateTime.now().withTimeAtStartOfDay().plusDays(1)).result)
+  def findToday: Future[Seq[Task]] = db.run(
+    Table.filter { task =>
+      task.dueDate between (DateTime.now(), DateTime.now().withTimeAtStartOfDay().plusDays(1).minusSeconds(1))
+    }.result
+  )
 
-  def finsTomorrow: Future[Seq[Task]] = db.run(Table.filter(task =>
-    task.dueDate >= DateTime.now().withTimeAtStartOfDay().plusDays(1) && task.dueDate <= DateTime.now().withTimeAtStartOfDay().plusDays(2)).result)
+  def findTomorrow: Future[Seq[Task]] = {
+    val now = DateTime.now().withTimeAtStartOfDay()
+
+    db.run(
+      Table.filter { task =>
+        task.dueDate between (now.plusDays(1), now.plusDays(2).minusSeconds(1))
+      }.result
+    )
+  }
 }
