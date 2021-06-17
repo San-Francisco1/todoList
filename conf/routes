@@ -1,6 +1,7 @@
 #API
 ## Auth
 POST    /api/signin        controllers.AuthController.signIn
+GET     /api/user/add      controllers.TodoListController.addUser
 
 #Views
 GET     /                  controllers.TodoListController.getIndexView
