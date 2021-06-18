@@ -13,5 +13,7 @@ class UserSessionService @Inject()(userSessionDAO: UserSessionDAO) {
 
   def findBySessionId(sessionId: String): Future[Option[UserSession]] = userSessionDAO.findBySessionId(sessionId)
 
+  def findByUserId(id: Long): Future[Option[UserSession]] = userSessionDAO.findByUserId(id)
+
   def setInactive(sessionId: String): Future[Int] = userSessionDAO.setInactive(sessionId)
 }

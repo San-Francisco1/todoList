@@ -4,7 +4,7 @@ import cats.data.OptionT
 import cats.implicits._
 import models.{Auth, UserSession}
 import play.api.libs.json.JsValue
-import play.api.mvc.{Action, Cookie, InjectedController}
+import play.api.mvc.{Action, AnyContent, Cookie, InjectedController, Request}
 import services.{UserService, UserSessionService}
 import views.html.auth.signIn
 
@@ -12,9 +12,11 @@ import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
+import actions.AuthRefiner
 
 class AuthController @Inject()(
   userService: UserService,
+  auth: AuthRefiner,
   userSessionService: UserSessionService
 )(
   signInView: signIn
@@ -38,6 +40,16 @@ class AuthController @Inject()(
       val cookie = Cookie(Auth.COOKIE_NAME, userSession.sessionId)
       Ok.withCookies(cookie)
     }).getOrElse(BadRequest(error))
+  }
+
+  def logout: Action[AnyContent] = auth.async { request =>
+    val userId = request.user.id
+    (for {
+      userSession <- OptionT(userSessionService.findByUserId(userId))
+      _ <- OptionT.liftF(userSessionService.setInactive(userSession.sessionId))
+    } yield {
+      Redirect(routes.AuthController.getSignInView)
+    }).getOrElse(BadRequest)
   }
 
   private def calcPassword(password: String): String = {
