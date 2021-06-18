@@ -40,8 +40,6 @@ class AuthController @Inject()(
     }).getOrElse(BadRequest(error))
   }
 
-  def logout = ???
-
   private def calcPassword(password: String): String = {
     val msgDigest = MessageDigest.getInstance("MD5")
     val MD5Hash = msgDigest.digest(password.getBytes()).map(0xFF & _).map { "%02x".format(_) }.foldLeft("") {_ + _}
