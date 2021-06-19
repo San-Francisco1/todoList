@@ -13,6 +13,8 @@ class TaskTable(tag: Tag) extends Table[Task](tag, "task") {
 
   def description = column[Option[String]]("description")
 
+  def userId = column[Long]("user_id")
+
   def priorityId = column[Long]("priority_id")
 
   def taskTypeId = column[Option[Long]]("task_type_id")
@@ -25,6 +27,7 @@ class TaskTable(tag: Tag) extends Table[Task](tag, "task") {
 
   def deleted = column[Option[DateTime]]("deleted")
 
-  override def * =
-    (id, title, description, priorityId, taskTypeId, dueDate, created, updated, deleted) <> ((Task.apply _). tupled, Task.unapply)
+  override def * = (
+    id, title, description, userId, priorityId, taskTypeId, dueDate, created, updated, deleted
+  ) <> ((Task.apply _). tupled, Task.unapply)
 }

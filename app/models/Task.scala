@@ -1,14 +1,14 @@
 package models
 
 import org.joda.time.DateTime
-import play.api.libs.json.Reads
-import play.api.libs.json._
 import play.api.libs.functional.syntax._
+import play.api.libs.json.{Reads, _}
 
 case class Task(
   id: Long,
   title: String,
   description: Option[String],
+  userId: Long,
   priorityId: Long,
   taskTypeId: Option[Long],
   dueDate: DateTime,
@@ -18,17 +18,18 @@ case class Task(
 )
 
 object Task extends JodaReads {
-  implicit val taskReads: Reads[Task] = {
+  def creatTaskReads(userId: Long): Reads[Task] = {
     (
       Reads.pure(0L) and
         (__ \ "title").read[String] and
         (__ \ "description").readNullable[String] and
+        Reads.pure(userId) and
         (__ \ "priority_id").read[Long] and
-        (__ \ "task_type_id").readNullable[Long] and
+        Reads.pure(None) and
         (__ \ "due_date").read[DateTime] and
         Reads.pure(DateTime.now) and
         Reads.pure(DateTime.now) and
         Reads.pure(None)
-      )(Task.apply _)
+    )(Task.apply _)
   }
 }

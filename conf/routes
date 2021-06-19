@@ -5,7 +5,7 @@ POST    /api/logout        controllers.AuthController.logout
 GET     /api/user/add      controllers.TodoListController.addUser
 
 ##Task
-POST    /api/task          controllers.TodoListController.addTask
+POST    /api/tasks          controllers.TodoListController.addTask
 
 #Views
 GET     /                  controllers.TodoListController.getIndexView

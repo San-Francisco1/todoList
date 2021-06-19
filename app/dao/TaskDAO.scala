@@ -31,9 +31,10 @@ class TaskDAO @Inject()(
     Table.filter(_.dueDate >= DateTime.now().withTimeAtStartOfDay().plusDays(2)).result
   )
 
-  def findToday: Future[Seq[Task]] = db.run(
+  def findToday(userId: Long): Future[Seq[Task]] = db.run(
     Table.filter { task =>
-      task.dueDate between (DateTime.now(), DateTime.now().withTimeAtStartOfDay().plusDays(1).minusSeconds(1))
+      task.userId === userId &&
+        (task.dueDate between (DateTime.now(), DateTime.now().withTimeAtStartOfDay().plusDays(1).minusSeconds(1)))
     }.result
   )
 

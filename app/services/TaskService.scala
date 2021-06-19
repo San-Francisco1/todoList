@@ -20,7 +20,7 @@ class TaskService @Inject()(taskDAO: TaskDAO) {
 
   def findUpcoming: Future[Seq[Task]] = taskDAO.findUpcoming
 
-  def findToday: Future[Seq[Task]] = taskDAO.findToday
+  def findToday(userId: Long): Future[Seq[Task]] = taskDAO.findToday(userId)
 
   def findTomorrow: Future[Seq[Task]] = taskDAO.findTomorrow
 }

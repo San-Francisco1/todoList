@@ -2,7 +2,7 @@
 
 @this()
 
-@(user: User)
+@(user: User)(content: Html)
 
 <!doctype html>
 <html lang="en">
@@ -226,34 +226,114 @@
                                     Minor
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill text-primary" viewBox="0 0 16 16">
+                                        <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                    </svg>
+                                    Trivial
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </nav>
 
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-
-                    </div>
+                    @content
                 </main>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
         <div class="modal fade" id="addTask" tabindex="-1" aria-labelledby="addTaskLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addTaskLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <form id="addTask" @@submit="addTask" action="/api/tasks" method="post">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addTaskLabel">Добавление задачи</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="alert alert-danger " role="alert" v-if="errors.length">
+                                        <div v-for="error in errors">{{ error }}</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <label for="title" class="form-label">Название</label>
+                                        <input type="text" v-model="title" name="title" class="form-control" id="title" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <label for="description" id="description" class="form-label">Описание</label>
+                                        <textarea v-model="description" name="description" class="form-control" id="description" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <label for="priority_id" class="form-label">Приоритет</label>
+                                        <select class="form-select" v-model="priorityId" name="priority_id" id="priorityId" required>
+                                            <option value="1">Hot</option>
+                                            <option value="2">Major</option>
+                                            <option value="3">Minor</option>
+                                            <option value="4">Trivial</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <label class="form-label" for="dueDate">Срок</label>
+                                        <input type="datetime-local" v-model="dueDate" name="dueDate" class="form-control" id="dueDate" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                            <button type="submit" class="btn btn-primary">Добавить</button>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
-                        <button type="button" class="btn btn-primary">Добавить</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </body>
+    <script>
+            new Vue({
+                el: '#addTask',
+                data: {
+                    title: null,
+                    description: null,
+                    priorityId: null,
+                    dueDate: null,
+                    errors: []
+                },
+                methods: {
+                    addTask: function (e) {
+                        this.errors = [];
+
+                        e.preventDefault();
+
+                        axios({
+                            method: 'post',
+                            url: '/api/tasks',
+                            data: {
+                                title: this.title,
+                                description: this.description,
+                                priority_id: parseInt(this.priorityId),
+                                due_date: this.dueDate
+                            },
+                            headers: { "Content-Type": "application/json" },
+                        })
+                        .then(function () {
+                            window.location = '/';
+                        })
+                        .catch((function (error) {
+                            this.errors.push(error);
+                        }).bind(this));
+                    }
+                }
+            })
+    </script>
 </html>
