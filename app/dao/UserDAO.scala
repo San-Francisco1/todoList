@@ -8,6 +8,7 @@ import models.User
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 import slick.jdbc.PostgresProfile.api._
+import com.github.tototoshi.slick.PostgresJodaSupport._
 
 @Singleton
 class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
@@ -28,4 +29,10 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
   }
 
   def insert(user: User): Future[Int] = db.run(Table += user)
+
+  def edit(updatedUser: User): Future[Int] = {
+    db.run(Table.filter(_.id === updatedUser.id)
+      .map(user => (user.firstName, user.lastName, user.phone, user.telegram, user.updated))
+      .update((updatedUser.firstName, updatedUser.lastName, updatedUser.phone, updatedUser.telegram, updatedUser.updated)))
+  }
 }

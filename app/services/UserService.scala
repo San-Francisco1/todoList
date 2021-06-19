@@ -16,4 +16,6 @@ class UserService @Inject()(userDAO: UserDAO) {
   def findByEmailAndPass(email: String, password: String): Future[Option[User]] = userDAO.findByEmailAndPass(email, password)
 
   def insert(user: User): Future[Int] = userDAO.insert(user)
+
+  def edit(user: User): Future[Int] = userDAO.edit(user)
 }

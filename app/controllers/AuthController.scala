@@ -1,10 +1,11 @@
 package controllers
 
+import actions.AuthRefiner
 import cats.data.OptionT
 import cats.implicits._
 import models.{Auth, UserSession}
 import play.api.libs.json.JsValue
-import play.api.mvc.{Action, AnyContent, Cookie, InjectedController, Request}
+import play.api.mvc.{Action, AnyContent, Cookie, InjectedController}
 import services.{UserService, UserSessionService}
 import views.html.auth.signIn
 
@@ -12,7 +13,6 @@ import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
-import actions.AuthRefiner
 
 class AuthController @Inject()(
   userService: UserService,

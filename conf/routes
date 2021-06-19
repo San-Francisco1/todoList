@@ -7,6 +7,10 @@ GET     /api/user/add      controllers.TodoListController.addUser
 ##Task
 POST    /api/tasks         controllers.TodoListController.addTask
 
+##User
+PUT     /api/user          controllers.UserController.editUser
+
 #Views
 GET     /                  controllers.TodoListController.getIndexView
 GET     /sign              controllers.AuthController.getSignInView
+

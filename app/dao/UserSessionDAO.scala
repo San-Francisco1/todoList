@@ -22,7 +22,7 @@ class UserSessionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     db.run(Table.filter(userSession => userSession.sessionId === sessionId && userSession.isActive).result.headOption)
   }
 
-  def setInactive(sessionId: String): Future[Int] = db.run(Table.filter(_.sessionId === sessionId).map(_.isActive).update((false)))
+  def setInactive(sessionId: String): Future[Int] = db.run(Table.filter(_.sessionId === sessionId).map(_.isActive).update(false))
 
   def findByUserId(id: Long): Future[Option[UserSession]] = {
     db.run(Table.filter(_.userId === id).result.headOption)
