@@ -19,6 +19,8 @@ class TaskTable(tag: Tag) extends Table[Task](tag, "task") {
 
   def taskTypeId = column[Option[Long]]("task_type_id")
 
+  def isCompleted = column[Boolean]("is_completed")
+
   def dueDate = column[DateTime]("due_date")
 
   def created = column[DateTime]("created")
@@ -28,6 +30,6 @@ class TaskTable(tag: Tag) extends Table[Task](tag, "task") {
   def deleted = column[Option[DateTime]]("deleted")
 
   override def * = (
-    id, title, description, userId, priorityId, taskTypeId, dueDate, created, updated, deleted
+    id, title, description, userId, priorityId, taskTypeId, isCompleted, dueDate, created, updated, deleted
   ) <> ((Task.apply _). tupled, Task.unapply)
 }

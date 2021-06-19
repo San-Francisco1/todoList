@@ -17,34 +17,73 @@ class TaskDAO @Inject()(
 
   val Table = TableQuery[TaskTable]
 
-  def findAll: Future[Seq[Task]] = db.run(Table.result)
+  def findAll(userId: Long): Future[Seq[Task]] = db.run(Table.filter(_.userId === userId).result)
 
   def insert(task: Task): Future[Int] = db.run(Table += task)
 
   def remove(id: Long): Future[Int] = db.run(Table.filter(_.id === id).delete)
 
-  def findByDueDate(dueDate: DateTime): Future[Seq[Task]] = db.run(Table.filter(_.dueDate === dueDate).result)
+  def findByDueDate(userId: Long, dueDate: DateTime): Future[Seq[Task]] = db.run(
+    Table.filter { task =>
+      task.isCompleted === false &&
+        task.userId === userId &&
+          task.dueDate === dueDate
+    }.result
+  )
 
-  def findExpired: Future[Seq[Task]] = db.run(Table.filter(_.dueDate < DateTime.now()).result)
+  def findExpired(userId: Long): Future[Seq[Task]] = db.run(
+    Table.filter { task =>
+      task.isCompleted === false &&
+        task.userId === userId &&
+          task.dueDate < DateTime.now()
+    }.result
+  )
 
-  def findUpcoming: Future[Seq[Task]] = db.run(
-    Table.filter(_.dueDate >= DateTime.now().withTimeAtStartOfDay().plusDays(2)).result
+  def findUpcoming(userId: Long): Future[Seq[Task]] = db.run(
+    Table.filter { task =>
+      task.isCompleted === false &&
+        task.userId === userId &&
+          task.dueDate >= DateTime.now().withTimeAtStartOfDay().plusDays(2)
+    }.result
   )
 
   def findToday(userId: Long): Future[Seq[Task]] = db.run(
     Table.filter { task =>
-      task.userId === userId &&
-        (task.dueDate between (DateTime.now(), DateTime.now().withTimeAtStartOfDay().plusDays(1).minusSeconds(1)))
+      task.isCompleted === false &&
+        task.userId === userId &&
+          (task.dueDate between (DateTime.now(), DateTime.now().withTimeAtStartOfDay().plusDays(1).minusSeconds(1)))
     }.result
   )
 
-  def findTomorrow: Future[Seq[Task]] = {
+  def findTomorrow(userId: Long): Future[Seq[Task]] = {
     val now = DateTime.now().withTimeAtStartOfDay()
 
     db.run(
       Table.filter { task =>
-        task.dueDate between (now.plusDays(1), now.plusDays(2).minusSeconds(1))
+        task.isCompleted === false &&
+          task.userId === userId &&
+            (task.dueDate between (now.plusDays(1), now.plusDays(2).minusSeconds(1)))
       }.result
     )
   }
+
+  def setIsCompleted(id: Long): Future[Int] = db.run(
+      Table.filter(_.id === id).map(_.isCompleted).update(true)
+    )
+
+  def findCompleted(userId: Long): Future[Seq[Task]] = db.run(
+    Table.filter { task =>
+      task.userId === userId &&
+        task.isCompleted === true
+    }.result
+  )
+
+  def findByPriority(userId: Long, priorityId: Long): Future[Seq[Task]] = db.run(
+    Table.filter { task =>
+      task.userId === userId &&
+        task.isCompleted === false &&
+          task.dueDate > DateTime.now &&
+            task.priorityId === priorityId
+    }.result
+  )
 }

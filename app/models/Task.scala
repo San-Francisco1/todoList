@@ -11,6 +11,7 @@ case class Task(
   userId: Long,
   priorityId: Long,
   taskTypeId: Option[Long],
+  isCompleted: Boolean,
   dueDate: DateTime,
   created: DateTime = DateTime.now(),
   updated: DateTime = DateTime.now(),
@@ -26,6 +27,7 @@ object Task extends JodaReads {
         Reads.pure(userId) and
         (__ \ "priority_id").read[Long] and
         Reads.pure(None) and
+        Reads.pure(false) and
         (__ \ "due_date").read[DateTime] and
         Reads.pure(DateTime.now) and
         Reads.pure(DateTime.now) and
