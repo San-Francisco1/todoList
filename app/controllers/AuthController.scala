@@ -1,18 +1,19 @@
 package controllers
 
-import actions.AuthRefiner
+import java.security.MessageDigest
+import java.util.UUID
+import javax.inject.Inject
+
+import scala.concurrent.{ExecutionContext, Future}
+
 import cats.data.OptionT
 import cats.implicits._
+import actions.AuthRefiner
 import models.{Auth, UserSession}
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, AnyContent, Cookie, InjectedController}
 import services.{UserService, UserSessionService}
 import views.html.auth.signIn
-
-import java.security.MessageDigest
-import java.util.UUID
-import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
 
 class AuthController @Inject()(
   userService: UserService,
@@ -43,13 +44,9 @@ class AuthController @Inject()(
   }
 
   def logout: Action[AnyContent] = auth.async { request =>
-    val userId = request.user.id
-    (for {
-      userSession <- OptionT(userSessionService.findByUserId(userId))
-      _ <- OptionT.liftF(userSessionService.setInactive(userSession.sessionId))
-    } yield {
+    OptionT.liftF(userSessionService.setInactive(request.userSession.sessionId)).map { _ =>
       Redirect(routes.AuthController.getSignInView)
-    }).getOrElse(BadRequest)
+    }.getOrElse(BadRequest)
   }
 
   private def calcPassword(password: String): String = {

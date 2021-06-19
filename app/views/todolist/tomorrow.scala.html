@@ -8,8 +8,8 @@
     tasks: Seq[(Task, Priority)]
 )
 
-@main(user)("now") {
-    <p><h3>Сегодня, @{DateTime.now().toString("dd.MM")} </h3></p>
+@main(user)("tomorrow") {
+    <p><h3>Завтра, @{DateTime.now().plusDays(1).toString("dd.MM")}</h3></p>
     @tasks.map { case (task, priority) =>
         @taskCard(task, priority)
     }

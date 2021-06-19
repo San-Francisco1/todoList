@@ -4,7 +4,7 @@ import actions.AuthRefiner
 import models.{Task, User}
 import play.api.mvc.{Action, AnyContent, InjectedController}
 import services.{PriorityService, TaskService, UserService}
-import views.html.todolist.today
+import views.html.todolist._
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -15,7 +15,10 @@ class TodoListController @Inject()(
   taskService: TaskService,
   priorityService: PriorityService
 )(
-  today: today
+  today: today,
+  tomorrow: tomorrow,
+  upcoming: upcoming,
+  expired: expired
 )(implicit ec: ExecutionContext) extends InjectedController {
 
   def getIndexView = auth.async { request =>
@@ -27,9 +30,54 @@ class TodoListController @Inject()(
         task <- tasks
         priority <- priorities.find(_.id == task.priorityId)
       } yield task -> priority)
-        .sortBy(-_._1.dueDate.getMillis)
+        .sortBy(_._1.dueDate.getMillis)
 
       Ok(today(request.user, result))
+    }
+  }
+
+  def getTomorrowView = auth.async { request =>
+    for {
+      tasks <- taskService.findTomorrow(request.user.id)
+      priorities <- priorityService.findAll
+    } yield {
+      val result = (for {
+        task <- tasks
+        priority <- priorities.find(_.id == task.priorityId)
+      } yield task -> priority)
+        .sortBy(_._1.dueDate.getMillis)
+
+      Ok(tomorrow(request.user, result))
+    }
+  }
+
+  def getExpiredView = auth.async { request =>
+    for {
+      tasks <- taskService.findExpired(request.user.id)
+      priorities <- priorityService.findAll
+    } yield {
+      val result = (for {
+        task <- tasks
+        priority <- priorities.find(_.id == task.priorityId)
+      } yield task -> priority)
+        .sortBy(-_._1.dueDate.getMillis)
+
+      Ok(expired(request.user, result))
+    }
+  }
+
+  def getUpcomingView = auth.async { request =>
+    for {
+      tasks <- taskService.findUpcoming(request.user.id)
+      priorities <- priorityService.findAll
+    } yield {
+      val result = (for {
+        task <- tasks
+        priority <- priorities.find(_.id == task.priorityId)
+      } yield task -> priority)
+        .sortBy(-_._1.dueDate.getMillis)
+
+      Ok(upcoming(request.user, result))
     }
   }
 

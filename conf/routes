@@ -12,5 +12,10 @@ PUT     /api/user          controllers.UserController.editUser
 
 #Views
 GET     /                  controllers.TodoListController.getIndexView
+GET     /now               controllers.TodoListController.getIndexView
+GET     /tomorrow          controllers.TodoListController.getTomorrowView
+GET     /upcoming          controllers.TodoListController.getUpcomingView
+GET     /expired           controllers.TodoListController.getExpiredView
+
 GET     /sign              controllers.AuthController.getSignInView
 

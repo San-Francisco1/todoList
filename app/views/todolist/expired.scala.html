@@ -1,0 +1,18 @@
+@import views.html.todolist.taskCard
+
+@this(main: index)
+
+@(
+    user: User,
+    tasks: Seq[(Task, Priority)]
+)
+
+@main(user)("expired") {
+    <p><h3>Просроченные</h3></p>
+    @tasks.groupBy(_._1.dueDate.toLocalDate).map { case (date, tasksByDate) =>
+    <p><h4>@{date.toString("dd.MM")}</h4></p>
+        @tasksByDate.map { case (task, priority) =>
+            @taskCard(task, priority)
+        }
+    }
+}

@@ -26,7 +26,7 @@ class AuthRefiner @Inject()(
       cookie <- OptionT.fromOption[Future](request.cookies.find(_.name == Auth.COOKIE_NAME))
       userSession <- OptionT(userSessionService.findBySessionId(cookie.value))
       user <- OptionT(userService.findById(userSession.userId))
-    } yield new AuthenticatedRequest(request, user))
+    } yield new AuthenticatedRequest(request, user, userSession))
       .toRight(Results.Redirect(routes.AuthController.getSignInView))
       .value
   }
