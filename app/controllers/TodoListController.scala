@@ -1,14 +1,13 @@
 package controllers
 
-import javax.inject.Inject
-
-import scala.concurrent.{ExecutionContext, Future}
-
 import actions.AuthRefiner
 import models.{Task, User}
-import play.api.mvc.InjectedController
+import play.api.mvc.{Action, AnyContent, InjectedController}
 import services.{PriorityService, TaskService, UserService}
 import views.html.todolist.today
+
+import javax.inject.Inject
+import scala.concurrent.{ExecutionContext, Future}
 
 class TodoListController @Inject()(
   auth: AuthRefiner,
@@ -54,5 +53,9 @@ class TodoListController @Inject()(
      }
   }
 
-  def deleteTask(id: Long) = ???
+  def deleteTask(id: Long): Action[AnyContent] = auth.async {
+      taskService.remove(id).map { _ =>
+        Redirect(routes.TodoListController.getIndexView)
+      }
+  }
 }
