@@ -2,6 +2,7 @@ package controllers
 
 import actions.AuthRefiner
 import models.{Task, User}
+import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, InjectedController}
 import services.{PriorityService, TaskService, UserService}
 import views.html.todolist._
@@ -106,4 +107,31 @@ class TodoListController @Inject()(
         Redirect(routes.TodoListController.getIndexView)
       }
   }
+
+  def completeTask(id: Long) = auth.async {
+    taskService.setIsCompleted(id).map { _ =>
+      Ok
+    }
+  }
+
+  def getCountTask = auth.async { request =>
+    for {
+      taskToday <- taskService.findToday(request.user.id)
+      taskTomorrow <- taskService.findTomorrow(request.user.id)
+      taskUpcoming <- taskService.findUpcoming(request.user.id)
+      taskCompleted <- taskService.findCompleted(request.user.id)
+      taskExpired <- taskService.findExpired(request.user.id)
+    } yield {
+      Ok(Json.toJson(
+        "today"-> taskToday.length,
+        "tomorrow" -> taskTomorrow.length,
+        "upcoming" -> taskUpcoming.length,
+        "completed" -> taskCompleted.length,
+        "expired" -> taskExpired.length
+        )
+      )
+    }
+  }
+
+
 }

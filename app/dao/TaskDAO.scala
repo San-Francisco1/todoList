@@ -86,4 +86,34 @@ class TaskDAO @Inject()(
             task.priorityId === priorityId
     }.result
   )
+
+//  def getCountTasksToday(userId: Long) = db.run(
+//    Table.filter { task =>
+//      task.userId === userId &&
+//        (task.dueDate between (DateTime.now(), DateTime.now().withTimeAtStartOfDay().plusDays(1).minusSeconds(1)))
+//    }.result
+//  )
+//
+//  def getCountTasksTomorrow(userId: Long) = {
+//    val now = DateTime.now().withTimeAtStartOfDay()
+//
+//    db.run(Table.filter { task =>
+//      task.userId === userId &&
+//        (task.dueDate between (now.plusDays(1), now.plusDays(2).minusSeconds(1)))}.result
+//    )
+//  }
+//
+//  def getCountTasksUpcoming(userId: Long) = db.run(
+//    Table.filter { task =>
+//      task.userId === userId &&
+//        task.dueDate >= DateTime.now().withTimeAtStartOfDay().plusDays(2)
+//    }.result
+//  )
+//
+//  def getCountTasksExpired(userId: Long) = db.run(
+//    Table.filter { task =>
+//      task.userId === userId &&
+//        task.dueDate < DateTime.now()
+//    }.result
+//  )
 }
