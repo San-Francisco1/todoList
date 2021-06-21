@@ -6,9 +6,11 @@ import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, InjectedController}
 import services.{PriorityService, TaskService, UserService}
 import views.html.todolist._
-
 import javax.inject.Inject
+
 import scala.concurrent.{ExecutionContext, Future}
+
+import cats.data.OptionT
 
 class TodoListController @Inject()(
   auth: AuthRefiner,
@@ -20,7 +22,8 @@ class TodoListController @Inject()(
   tomorrow: tomorrow,
   upcoming: upcoming,
   expired: expired,
-  completed: completed
+  completed: completed,
+  priority: priority
 )(implicit ec: ExecutionContext) extends InjectedController {
 
   def getIndexView = auth.async { request =>
@@ -96,6 +99,17 @@ class TodoListController @Inject()(
 
       Ok(upcoming(request.user, result))
     }
+  }
+
+  def getByPriorityIdView(id: Long) = auth.async { request =>
+    (for {
+      dbPriority <- OptionT(priorityService.findById(id))
+      tasks <- OptionT.liftF(taskService.findByPriority(request.user.id, dbPriority.id))
+    } yield {
+      val result = tasks.sortBy(-_.dueDate.getMillis)
+
+      Ok(priority(request.user, dbPriority, result))
+    }).getOrElse(BadRequest)
   }
 
   def addUser = Action {

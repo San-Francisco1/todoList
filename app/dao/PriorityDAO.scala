@@ -17,5 +17,7 @@ class PriorityDAO @Inject()(
 
   val Table = TableQuery[PriorityTable]
 
+  def findById(id: Long): Future[Option[Priority]] = db.run(Table.filter(_.id === id).result.headOption)
+
   def findAll: Future[Seq[Priority]] = db.run(Table.result)
 }
