@@ -19,7 +19,8 @@ class TodoListController @Inject()(
   today: today,
   tomorrow: tomorrow,
   upcoming: upcoming,
-  expired: expired
+  expired: expired,
+  completed: completed
 )(implicit ec: ExecutionContext) extends InjectedController {
 
   def getIndexView = auth.async { request =>
@@ -67,6 +68,21 @@ class TodoListController @Inject()(
     }
   }
 
+  def getCompletedView = auth.async { request =>
+    for {
+      tasks <- taskService.findCompleted(request.user.id)
+      priorities <- priorityService.findAll
+    } yield {
+      val result = (for {
+        task <- tasks
+        priority <- priorities.find(_.id == task.priorityId)
+      } yield task -> priority)
+        .sortBy(-_._1.dueDate.getMillis)
+
+      Ok(completed(request.user, result))
+    }
+  }
+
   def getUpcomingView = auth.async { request =>
     for {
       tasks <- taskService.findUpcoming(request.user.id)
@@ -104,7 +120,7 @@ class TodoListController @Inject()(
 
   def deleteTask(id: Long): Action[AnyContent] = auth.async {
       taskService.remove(id).map { _ =>
-        Redirect(routes.TodoListController.getIndexView)
+        Ok
       }
   }
 
@@ -122,12 +138,13 @@ class TodoListController @Inject()(
       taskCompleted <- taskService.findCompleted(request.user.id)
       taskExpired <- taskService.findExpired(request.user.id)
     } yield {
-      Ok(Json.toJson(
-        "today"-> taskToday.length,
-        "tomorrow" -> taskTomorrow.length,
-        "upcoming" -> taskUpcoming.length,
-        "completed" -> taskCompleted.length,
-        "expired" -> taskExpired.length
+      Ok(
+        Json.toJson(
+          "today"-> taskToday.length,
+          "tomorrow" -> taskTomorrow.length,
+          "upcoming" -> taskUpcoming.length,
+          "completed" -> taskCompleted.length,
+          "expired" -> taskExpired.length
         )
       )
     }

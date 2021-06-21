@@ -4,6 +4,8 @@ POST    /api/signin        controllers.AuthController.signIn
 POST    /api/logout        controllers.AuthController.logout
 GET     /api/user/add      controllers.TodoListController.addUser
 
+POST    /api/tasks/:id/complete       controllers.TodoListController.completeTask(id: Long)
+
 ##Task
 POST    /api/tasks         controllers.TodoListController.addTask
 
@@ -16,6 +18,7 @@ GET     /now               controllers.TodoListController.getIndexView
 GET     /tomorrow          controllers.TodoListController.getTomorrowView
 GET     /upcoming          controllers.TodoListController.getUpcomingView
 GET     /expired           controllers.TodoListController.getExpiredView
+GET     /completed         controllers.TodoListController.getCompletedView
 
 GET     /sign              controllers.AuthController.getSignInView
 

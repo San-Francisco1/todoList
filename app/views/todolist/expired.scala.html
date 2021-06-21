@@ -12,7 +12,7 @@
     @tasks.groupBy(_._1.dueDate.toLocalDate).map { case (date, tasksByDate) =>
     <p><h4>@{date.toString("dd.MM")}</h4></p>
         @tasksByDate.map { case (task, priority) =>
-            @taskCard(task, priority)
+            @taskCard(task, priority, page = "expired", showCompleteBtn = false)
         }
     }
 }
