@@ -10,7 +10,7 @@ create table if not exists users(
     created timestamp not null,
     updated timestamp not null,
     deleted timestamp null,
-    unique(email, telegram)
+    unique(email)
 );
 
 # --- !Downs
