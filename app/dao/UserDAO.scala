@@ -32,7 +32,7 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
 
   def edit(updatedUser: User): Future[Int] = {
     db.run(Table.filter(_.id === updatedUser.id)
-      .map(user => (user.firstName, user.lastName, user.phone, user.telegram, user.updated))
-      .update((updatedUser.firstName, updatedUser.lastName, updatedUser.phone, updatedUser.telegram, updatedUser.updated)))
+      .map(user => (user.firstName, user.lastName, user.phone, user.updated))
+      .update((updatedUser.firstName, updatedUser.lastName, updatedUser.phone, updatedUser.updated)))
   }
 }

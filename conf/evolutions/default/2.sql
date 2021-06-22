@@ -7,7 +7,6 @@ create table if not exists users(
     email varchar not null,
     password varchar not null,
     phone varchar not null,
-    telegram varchar null,
     created timestamp not null,
     updated timestamp not null,
     deleted timestamp null,

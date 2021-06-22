@@ -114,7 +114,7 @@ class TodoListController @Inject()(
 
   def addUser = Action {
     userService.insert(
-      User(0L, "Test", "Test", "test@mail.ru", "d8578edf8458ce06fbc5bb76a58c5ca4", "89001001010", None, deleted = None)
+      User(0L, "Test", "Test", "test@mail.ru", "d8578edf8458ce06fbc5bb76a58c5ca4", "89001001010", deleted = None)
     )
 
     Ok

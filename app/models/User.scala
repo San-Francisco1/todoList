@@ -11,7 +11,6 @@ case class User(
   email: String,
   password: String,
   phone: String,
-  telegram: Option[String],
   created: DateTime = DateTime.now(),
   updated: DateTime = DateTime.now(),
   deleted: Option[DateTime]
@@ -26,7 +25,6 @@ object User extends JodaReads {
         Reads.pure(user.email) and
         Reads.pure(user.password) and
         (__ \ "phone").read[String] and
-        (__ \ "telegram").readNullable[String] and
         Reads.pure(user.created) and
         Reads.pure(DateTime.now) and
         Reads.pure(None)
