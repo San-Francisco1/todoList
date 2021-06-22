@@ -160,14 +160,14 @@
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                             <span>Задачи</span>
                         </h6>
-                        <ul class="nav flex-column">
+                        <ul id="nav" class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link @{ if(page == "completed") "active" }" aria-current="page" href="/completed">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
                                         <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
                                     </svg>
-                                    Завершенные
+                                    Завершенные <span v-if="completed" class="badge rounded-pill bg-light text-secondary"> {{ completed }}  </span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -176,7 +176,7 @@
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
                                         <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
                                     </svg>
-                                    Сегодня
+                                    Сегодня <span v-if="today" class="badge rounded-pill bg-light text-secondary"> {{ today }} </span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -185,7 +185,7 @@
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
                                         <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
                                     </svg>
-                                    Завтра
+                                    Завтра <span v-if="tomorrow" class="badge rounded-pill bg-light text-secondary"> {{ tomorrow }} </span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -194,7 +194,7 @@
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                                     </svg>
-                                    Просроченные
+                                    Просроченные <span v-if="expired" class="badge rounded-pill bg-danger"> {{ expired }} </span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -203,10 +203,38 @@
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
                                         <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
                                     </svg>
-                                    Остальные
+                                    Остальные <span v-if="upcoming" class="badge rounded-pill bg-light text-secondary"> {{ upcoming }} </span>
                                 </a>
                             </li>
                         </ul>
+                        <script>
+                            new Vue({
+                                el: "#nav",
+                                data: {
+                                    today: '',
+                                    tomorrow: '',
+                                    upcoming: '',
+                                    completed: '',
+                                    expired: ''
+                                },
+                                created: function () {
+                                    let self = this
+                                    this.$nextTick(function () {
+                                        axios({
+                                            url: '/api/counters',
+                                            headers: { "Content-Type": "application/json" },
+                                        })
+                                        .then(function (response) {
+                                            self.completed = response.data.completed;
+                                            self.today = response.data.today;
+                                            self.tomorrow = response.data.tomorrow;
+                                            self.upcoming = response.data.upcoming;
+                                            self.expired = response.data.expired;
+                                        })
+                                    })
+                                }
+                            });
+                        </script>
 
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                             <span>Фильтры</span>
@@ -309,40 +337,40 @@
         </div>
     </body>
     <script>
-            new Vue({
-                el: '#addTask',
-                data: {
-                    title: null,
-                    description: null,
-                    priorityId: null,
-                    dueDate: null,
-                    errors: []
-                },
-                methods: {
-                    addTask: function (e) {
-                        this.errors = [];
+        new Vue({
+            el: '#addTask',
+            data: {
+                title: null,
+                description: null,
+                priorityId: null,
+                dueDate: null,
+                errors: []
+            },
+            methods: {
+                addTask: function (e) {
+                    this.errors = [];
 
-                        e.preventDefault();
+                    e.preventDefault();
 
-                        axios({
-                            method: 'post',
-                            url: '/api/tasks',
-                            data: {
-                                title: this.title,
-                                description: this.description,
-                                priority_id: parseInt(this.priorityId),
-                                due_date: this.dueDate
-                            },
-                            headers: { "Content-Type": "application/json" },
-                        })
-                        .then(function () {
-                            window.location = "@{ '/' + page }";
-                        })
-                        .catch((function (error) {
-                            this.errors.push(error);
-                        }).bind(this));
-                    }
+                    axios({
+                        method: 'post',
+                        url: '/api/tasks',
+                        data: {
+                            title: this.title,
+                            description: this.description,
+                            priority_id: parseInt(this.priorityId),
+                            due_date: this.dueDate
+                        },
+                        headers: { "Content-Type": "application/json" },
+                    })
+                    .then(function () {
+                        window.location = "@{ '/' + page }";
+                    })
+                    .catch((function (error) {
+                        this.errors.push(error);
+                    }).bind(this));
                 }
-            })
+            }
+        })
     </script>
 </html>

@@ -153,7 +153,7 @@ class TodoListController @Inject()(
       taskExpired <- taskService.findExpired(request.user.id)
     } yield {
       Ok(
-        Json.toJson(
+        Json.obj(
           "today"-> taskToday.length,
           "tomorrow" -> taskTomorrow.length,
           "upcoming" -> taskUpcoming.length,
