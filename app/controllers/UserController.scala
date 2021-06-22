@@ -1,16 +1,17 @@
 package controllers
 
 import actions.AuthRefiner
-import models.User
+import models.{Notification, User}
 import play.api.libs.json.{JsError, Json}
 import play.api.mvc.InjectedController
-import services.UserService
+import services.{NotificationService, UserService}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class UserController @Inject()(
   auth: AuthRefiner,
+  notificationService: NotificationService,
   userService: UserService
 )(implicit ec: ExecutionContext) extends InjectedController {
 
@@ -27,4 +28,22 @@ class UserController @Inject()(
       }
     )
   }
+
+/*  def editNotification = auth.async(parse.json) { request =>
+    for {
+      notification <- notificationService.findByUserId(request.user.id)
+    } yield {
+      val notificationResult = request.body.validate[Notification](Notification.notificationReads(notification))
+      notificationResult.fold(
+        errors => {
+          Future.successful(BadRequest(Json.obj("message" -> JsError.toJson(errors))))
+        },
+        notify => {
+          notificationService.edit(notify).map( _ =>
+            Redirect(routes.TodoListController.getIndexView)
+          )
+        }
+      )
+    }
+  }*/
 }
