@@ -20,8 +20,8 @@ object User extends JodaReads {
   implicit def userReads(user: User): Reads[User] = {
     (
       Reads.pure(user.id) and
-        (__ \ "firstname").read[String] and
-        (__ \ "lastname").read[String] and
+        (__ \ "first_name").read[String] and
+        (__ \ "last_name").read[String] and
         Reads.pure(user.email) and
         Reads.pure(user.password) and
         (__ \ "phone").read[String] and

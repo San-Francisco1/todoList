@@ -27,5 +27,4 @@ class UserController @Inject()(
       }
     )
   }
-
 }

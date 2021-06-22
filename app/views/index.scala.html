@@ -134,11 +134,17 @@
                         <span class="profile-img">@{ List(user.firstName.headOption, user.lastName.headOption).flatten.mkString("").toUpperCase }</span>
                     </a>
                     <ul class="dropdown-menu text-small dropdown-menu-end dropdown-menu-start" aria-labelledby="userMenu">
-                        <li><a class="dropdown-item" href="#">
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editUser">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill text-end" viewBox="0 0 16 16">
                                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                             </svg>
                             Профиль
+                        </a></li>
+                        <li><a class="dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+                            </svg>
+                            Напоминания
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><form method="post" action="/api/logout"><button type="submit" class="dropdown-item">
@@ -335,6 +341,55 @@
                 </form>
             </div>
         </div>
+        <div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="editUserLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form id="editUser" @@submit="editUser" action="/api/user" method="post">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editUserLabel">Редактирование пользователя</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="alert alert-danger " role="alert" v-if="errors.length">
+                                        <div v-for="error in errors">{{ error }}</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <label for="title" class="form-label">Имя</label>
+                                        <input type="text" v-model="firstName" name="first_name" value="@{user.firstName}" class="form-control" id="first_name" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <label for="title" class="form-label">Фамилия</label>
+                                        <input type="text" v-model="lastName" name="last_name" value="@{user.lastName}" class="form-control" id="last_name" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <label for="title" class="form-label">Телефон</label>
+                                        <input type="text" v-model="phone" name="phone" value="@{user.phone}" class="form-control" id="phone" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <label for="title" class="form-label">Email</label>
+                                        <input type="text" name="email" placeholder="@{user.email}" class="form-control" id="email" disabled readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                            <button type="submit" class="btn btn-primary">Изменить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </body>
     <script>
         new Vue({
@@ -360,6 +415,39 @@
                             description: this.description,
                             priority_id: parseInt(this.priorityId),
                             due_date: this.dueDate
+                        },
+                        headers: { "Content-Type": "application/json" },
+                    })
+                    .then(function () {
+                            window.location = "@{ '/' + page }";
+                    })
+                    .catch((function (error) {
+                        this.errors.push(error);
+                    }).bind(this));
+                }
+            }
+        });
+        new Vue({
+            el: '#editUser',
+            data: {
+                firstName: '@{user.firstName}',
+                lastName: '@{user.lastName}',
+                phone: '@{user.phone}',
+                errors: []
+            },
+            methods: {
+                editUser: function (e) {
+                    this.errors = [];
+
+                    e.preventDefault();
+
+                    axios({
+                        method: 'put',
+                        url: '/api/user',
+                        data: {
+                            first_name: this.firstName,
+                            last_name: this.lastName,
+                            phone: this.phone
                         },
                         headers: { "Content-Type": "application/json" },
                     })

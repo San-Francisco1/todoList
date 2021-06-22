@@ -2,7 +2,6 @@
 ## Auth
 POST    /api/signin        controllers.AuthController.signIn
 POST    /api/logout        controllers.AuthController.logout
-GET     /api/user/add      controllers.TodoListController.addUser
 GET     /api/counters      controllers.TodoListController.getCountTask
 
 POST    /api/tasks/:id/complete     controllers.TodoListController.completeTask(id: Long)
