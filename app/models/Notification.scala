@@ -1,10 +1,8 @@
 package models
 
 import org.joda.time.DateTime
-import play.api.libs.json.{JodaReads, Reads, __}
 import play.api.libs.functional.syntax._
-
-import scala.concurrent.Future
+import play.api.libs.json.{JodaReads, Reads, __}
 
 case class Notification(
   id: Long,
@@ -16,7 +14,7 @@ case class Notification(
 )
 
 object Notification extends JodaReads {
-  def notificationReads(notification: Notification): Reads[Future[Notification]] = {
+  def notificationReads(notification: Notification): Reads[Notification] = {
     (
       Reads.pure(notification.id) and
         Reads.pure(notification.userId) and

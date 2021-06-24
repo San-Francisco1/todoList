@@ -18,9 +18,5 @@ class NotificationDAO @Inject()(
 
   def findByUserId(userId: Long): Future[Option[Notification]] = db.run(Table.filter(_.userId === userId).result.headOption)
 
-  def edit(editNotification: Notification): Future[Int] = db.run(
-    Table.filter(_.id === editNotification.id)
-      .map(notification => (notification.telegram, notification.beforeMinutes))
-      .update((editNotification.telegram, editNotification.beforeMinutes))
-  )
+  def edit(editNotification: Notification): Future[Int] = db.run(Table.insertOrUpdate(editNotification))
 }
