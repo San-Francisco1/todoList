@@ -6,7 +6,7 @@ import slick.lifted.Tag
 import org.joda.time.DateTime
 import com.github.tototoshi.slick.PostgresJodaSupport._
 
-class NotificationTable(tag: Tag) extends Table[Notification](tag, "Notification") {
+class NotificationTable(tag: Tag) extends Table[Notification](tag, "notification") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
   def userId = column[Long]("user_id")

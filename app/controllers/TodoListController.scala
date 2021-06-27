@@ -37,7 +37,7 @@ class TodoListController @Inject()(
       } yield task -> priority)
         .sortBy(_._1.dueDate.getMillis)
 
-      Ok(today(request.user, result))
+      Ok(today(request.user, request.notification, result))
     }
   }
 
@@ -52,7 +52,7 @@ class TodoListController @Inject()(
       } yield task -> priority)
         .sortBy(_._1.dueDate.getMillis)
 
-      Ok(tomorrow(request.user, result))
+      Ok(tomorrow(request.user, request.notification, result))
     }
   }
 
@@ -67,7 +67,7 @@ class TodoListController @Inject()(
       } yield task -> priority)
         .sortBy(-_._1.dueDate.getMillis)
 
-      Ok(expired(request.user, result))
+      Ok(expired(request.user, request.notification, result))
     }
   }
 
@@ -82,7 +82,7 @@ class TodoListController @Inject()(
       } yield task -> priority)
         .sortBy(-_._1.dueDate.getMillis)
 
-      Ok(completed(request.user, result))
+      Ok(completed(request.user, request.notification, result))
     }
   }
 
@@ -97,7 +97,7 @@ class TodoListController @Inject()(
       } yield task -> priority)
         .sortBy(-_._1.dueDate.getMillis)
 
-      Ok(upcoming(request.user, result))
+      Ok(upcoming(request.user, request.notification, result))
     }
   }
 
@@ -108,7 +108,7 @@ class TodoListController @Inject()(
     } yield {
       val result = tasks.sortBy(-_.dueDate.getMillis)
 
-      Ok(priority(request.user, dbPriority, result))
+      Ok(priority(request.user, request.notification, dbPriority, result))
     }).getOrElse(BadRequest)
   }
 
@@ -163,6 +163,4 @@ class TodoListController @Inject()(
       )
     }
   }
-
-
 }

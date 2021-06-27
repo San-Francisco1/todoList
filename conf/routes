@@ -13,6 +13,9 @@ POST    /api/tasks         controllers.TodoListController.addTask
 ##User
 PUT     /api/user          controllers.UserController.editUser
 
+##Notification
+PUT     /api/notification  controllers.UserController.editNotification
+
 #Views
 GET     /                  controllers.TodoListController.getIndexView
 GET     /now               controllers.TodoListController.getIndexView

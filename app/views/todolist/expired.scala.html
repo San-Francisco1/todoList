@@ -4,10 +4,11 @@
 
 @(
     user: User,
+    notification: Notification,
     tasks: Seq[(Task, Priority)]
 )
 
-@main(user)("expired") {
+@main(user, notification)("expired") {
     <p><h3>Просроченные</h3></p>
     @tasks.groupBy(_._1.dueDate.toLocalDate).map { case (date, tasksByDate) =>
     <p><h4>@{date.toString("dd.MM")}</h4></p>

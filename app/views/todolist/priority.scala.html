@@ -4,11 +4,12 @@
 
 @(
     user: User,
+    notification: Notification,
     priority: Priority,
     tasks: Seq[Task]
 )
 
-@main(user)("") {
+@main(user, notification)("") {
     <p><h3>@{priority.title.capitalize}</h3></p>
     @tasks.groupBy(_.dueDate.toLocalDate).map { case (date, tasksByDate) =>
     <p><h4>@{date.toString("dd.MM")}</h4></p>

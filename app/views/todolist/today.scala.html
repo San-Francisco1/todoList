@@ -5,10 +5,11 @@
 
 @(
     user: User,
+    notification: Notification,
     tasks: Seq[(Task, Priority)]
 )
 
-@main(user)("now") {
+@main(user, notification)("now") {
     <p><h3>Сегодня, @{DateTime.now().toString("dd.MM")} </h3></p>
     @tasks.map { case (task, priority) =>
         @taskCard(task, priority, page = "now")

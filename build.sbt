@@ -7,6 +7,7 @@ lazy val root = (project in file("."))
     scalaVersion := "2.13.5",
     libraryDependencies ++= Seq(
       guice,
+      ws,
       Dependencies.cats,
       Dependencies.nscala,
       Dependencies.playSlick,

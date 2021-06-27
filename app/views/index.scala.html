@@ -2,7 +2,7 @@
 
 @this()
 
-@(user: User)(page: String)(content: Html)
+@(user: User, notification: Notification)(page: String)(content: Html)
 
 <!doctype html>
 <html lang="en">
@@ -140,7 +140,7 @@
                             </svg>
                             Профиль
                         </a></li>
-                        <li><a class="dropdown-item">
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editNotification">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
                                 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
                             </svg>
@@ -390,6 +390,47 @@
                 </form>
             </div>
         </div>
+        <div class="modal fade" id="editNotification" tabindex="-1" aria-labelledby="editNotificationLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form id="editNotification" @@submit="editNotification" action="/api/notification">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editNotificationLabel">Настройка напоминаний</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="alert alert-danger " role="alert" v-if="errors.length">
+                                    <div v-for="error in errors">{{ error }}</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div>
+                                    <label for="title" class="form-label">ID Telegram канала</label>
+                                    <input type="text" v-model="telegram" name="telegram" value="@{notification.telegram}" class="form-control" id="telegram">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-7">
+                                    <label for="beforeMinutes" class="form-label">Уведомление</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Уведомлять за</span>
+                                        <input v-model="beforeMinutes" name="beforeMinutes" id="beforeMinutes" type="text" class="form-control" aria-label="мин" value="@{notification.beforeMinutes}">
+                                        <span class="input-group-text">мин</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                        <button type="submit" class="btn btn-primary">Изменить</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
     </body>
     <script>
         new Vue({
@@ -448,6 +489,37 @@
                             first_name: this.firstName,
                             last_name: this.lastName,
                             phone: this.phone
+                        },
+                        headers: { "Content-Type": "application/json" },
+                    })
+                    .then(function () {
+                        window.location = "@{ '/' + page }";
+                    })
+                    .catch((function (error) {
+                        this.errors.push(error);
+                    }).bind(this));
+                }
+            }
+        });
+        new Vue({
+            el: '#editNotification',
+            data: {
+                telegram: '@{notification.telegram.getOrElse("")}',
+                beforeMinutes: '@{notification.beforeMinutes}',
+                errors: []
+            },
+            methods: {
+                editNotification: function (e) {
+                    this.errors = [];
+
+                    e.preventDefault();
+
+                    axios({
+                        method: 'put',
+                        url: '/api/notification',
+                        data: {
+                            telegram: this.telegram,
+                            before_minutes: parseInt(this.beforeMinutes)
                         },
                         headers: { "Content-Type": "application/json" },
                     })

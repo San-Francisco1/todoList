@@ -9,13 +9,14 @@ import cats.implicits._
 import controllers.routes
 import models.Auth
 import play.api.mvc._
-import services.{UserService, UserSessionService}
+import services.{NotificationService, UserService, UserSessionService}
 
 @Singleton
 class AuthRefiner @Inject()(
   val parser: BodyParsers.Default,
   userSessionService: UserSessionService,
-  userService: UserService
+  userService: UserService,
+  notificationService: NotificationService
 )(
   implicit val executionContext: ExecutionContext
 ) extends ActionBuilder[AuthenticatedRequest, AnyContent]
@@ -26,7 +27,8 @@ class AuthRefiner @Inject()(
       cookie <- OptionT.fromOption[Future](request.cookies.find(_.name == Auth.COOKIE_NAME))
       userSession <- OptionT(userSessionService.findBySessionId(cookie.value))
       user <- OptionT(userService.findById(userSession.userId))
-    } yield new AuthenticatedRequest(request, user, userSession))
+      notification <- OptionT.liftF(notificationService.findByUserId(user.id))
+    } yield new AuthenticatedRequest(request, user, userSession, notification))
       .toRight(Results.Redirect(routes.AuthController.getSignInView))
       .value
   }
