@@ -6,11 +6,11 @@ import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, InjectedController}
 import services.{PriorityService, TaskService, UserService}
 import views.html.todolist._
+
 import javax.inject.Inject
-
 import scala.concurrent.{ExecutionContext, Future}
-
 import cats.data.OptionT
+import org.joda.time.DateTime
 
 class TodoListController @Inject()(
   auth: AuthRefiner,
@@ -123,7 +123,7 @@ class TodoListController @Inject()(
   def addTask() = auth.async(parse.json) { request =>
     request
       .body
-      .validate[Task](Task.creatTaskReads(request.user.id))
+      .validate[Task](Task.createTaskReads(request.user.id))
       .map { task =>
         taskService.insert(task).map(_ => Redirect(routes.TodoListController.getIndexView))
       }
@@ -163,4 +163,6 @@ class TodoListController @Inject()(
       )
     }
   }
+
+
 }

@@ -20,7 +20,7 @@ case class Task(
 )
 
 object Task extends JodaReads {
-  def creatTaskReads(userId: Long): Reads[Task] = {
+  def createTaskReads(userId: Long): Reads[Task] = {
     (
       Reads.pure(0L) and
         (__ \ "title").read[String] and

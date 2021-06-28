@@ -23,14 +23,6 @@ class TaskDAO @Inject()(
 
   def remove(id: Long): Future[Int] = db.run(Table.filter(_.id === id).delete)
 
-  def findByDueDate(userId: Long, dueDate: DateTime): Future[Seq[Task]] = db.run(
-    Table.filter { task =>
-      !task.isCompleted &&
-        task.userId === userId &&
-          task.dueDate === dueDate
-    }.result
-  )
-
   def findExpired(userId: Long): Future[Seq[Task]] = db.run(
     Table.filter { task =>
       !task.isCompleted &&
@@ -86,4 +78,11 @@ class TaskDAO @Inject()(
             task.priorityId === priorityId
     }.result
   )
+
+  def findForNotification: Future[Seq[Task]] = db.run(
+    Table.filter { task => !task.isNotified
+    }.result
+  )
+
+
 }
