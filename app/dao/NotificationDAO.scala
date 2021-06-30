@@ -18,7 +18,7 @@ class NotificationDAO @Inject()(
 
   def findByUserId(userId: Long): Future[Option[Notification]] = db.run(Table.filter(_.userId === userId).result.headOption)
 
-  def findBySetUserIds(userIds: Set[Long]) = db.run(Table.filter(_.userId inSet userIds).result)
+  def findBySetUserIds(userIds: Set[Long]): Future[Seq[Notification]] = db.run(Table.filter(_.userId inSet userIds).result)
 
   def edit(editNotification: Notification): Future[Int] = db.run(Table.insertOrUpdate(editNotification))
 }

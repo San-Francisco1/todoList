@@ -27,6 +27,8 @@ class TaskService @Inject()(taskDAO: TaskDAO,
 
   def setIsCompleted(id: Long): Future[Int] = taskDAO.setIsCompleted(id)
 
+  def setIsNotified(id: Long): Future[Int] = taskDAO.setIsNotified(id)
+
   def findCompleted(userId: Long): Future[Seq[Task]] = taskDAO.findCompleted(userId)
 
   def findByPriority(userId: Long, priorityId: Long): Future[Seq[Task]] = taskDAO.findByPriority(userId, priorityId)

@@ -1,0 +1,8 @@
+@this()
+
+@(task: Task)
+
+<b>Напоминание!</b>
+@task.title
+<i>@task.description</i>
+Выполнить до: <u>@task.dueDate.toString("HH:mm")</u>

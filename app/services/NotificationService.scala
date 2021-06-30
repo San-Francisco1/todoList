@@ -15,7 +15,7 @@ class NotificationService @Inject()(notificationDAO: NotificationDAO)(implicit e
   def findByUserId(userId: Long): Future[Notification] =
     OptionT(notificationDAO.findByUserId(userId)).getOrElse(Notification(0, userId, None, 15, DateTime.now(), DateTime.now()))
 
-  def findBySetUserIds(userIds: Set[Long]) = notificationDAO.findBySetUserIds(userIds)
+  def findBySetUserIds(userIds: Set[Long]): Future[Seq[Notification]] = notificationDAO.findBySetUserIds(userIds)
 
   def edit(notification: Notification): Future[Int] = notificationDAO.edit(notification)
 }

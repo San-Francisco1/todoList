@@ -63,6 +63,10 @@ class TaskDAO @Inject()(
     Table.filter(_.id === id).map(_.isCompleted).update(true)
   )
 
+  def setIsNotified(id: Long): Future[Int] = db.run(
+    Table.filter(_.id === id).map(_.isNotified).update(true)
+  )
+
   def findCompleted(userId: Long): Future[Seq[Task]] = db.run(
     Table.filter { task =>
       task.userId === userId &&
